@@ -180,7 +180,7 @@ function creationArborescence()
 
 
 # Main (Code executer) #
-folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT\n(un repertoire fils de '/home/$USER' sinon la permission ne sera pas accorder pour la création de l'arborescence)\n" 15 60 /home/$USER 3>&1 1>&2 2>&3) && {
+folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT.\n\n(un repertoire fils de '/home/$USER' sinon la permission ne sera pas accorder pour la création de l'arborescence)\n" 15 60 /home/$USER 3>&1 1>&2 2>&3) && {
     ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
 } || {
     TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
