@@ -4,7 +4,7 @@ function demandeChemin()
 {
 	folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3)
 
-    ls "${folder}/IUT" >/dev/null 2>&1 && { cheminExisteDeja "$folder"; } || { creationArborescence && ArborescenceCreer; }
+    ls "${folder}/IUT" >/dev/null 2>&1 && { cheminExisteDeja "$folder"; } || { creationArborescence "$folder" && ArborescenceCreer; }
 	#ls "$folder" >/dev/null 2>&1 && { creationArborescence && ArborescenceCreer; } || cheminInvalide "$folder"
 }
 
