@@ -4,7 +4,6 @@ function demandeChemin()
 {
 	rep=$(whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3)
 
-	
 	verif=$?
 	
 	
@@ -30,7 +29,7 @@ function cheminInvalide()
 	
 	if [ $? -eq 0 ]
 	then 
-		main "$(echo $1)" creer
+		main "$1" creer
 	else
 		whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
 	fi
