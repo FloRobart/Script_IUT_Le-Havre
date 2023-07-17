@@ -213,37 +213,32 @@ function creationArborescence()
 }
 
 
-function main()
-{
-	if [ $# -lt 1 ] 
-	then
-		demandeChemin
-	else
-		if [ -d "$1" ]
-		then
-		
-			if [ -d "$1"/IUT ]
-			then
-				if [ $# -lt 2 ]
-				then
-					cheminExisteDeja "$(echo $1)"
-				else
-					rm -fr "$1"/IUT
-					creationArborescence "$(echo $1)" && arborescenceCree "L'ancienne Arborescence à été remplacer par la nouvelle avec succès" || arborescenceEchoue
-				fi
-			else
-				creationArborescence "$(echo $1)" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
-			fi
-		else
-			if [ $# -lt 2 ]
-			then
-				cheminInvalide "$(echo $1)"
-			else
-				mkdir "$(echo $1)"
-				creationArborescence "$(echo $1)" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
-			fi
-		fi
-	fi			
-}
-
-main
+if [ $# -lt 1 ] 
+then
+    demandeChemin
+else
+    if [ -d "$1" ]
+    then
+    
+        if [ -d "$1"/IUT ]
+        then
+            if [ $# -lt 2 ]
+            then
+                cheminExisteDeja "$(echo $1)"
+            else
+                rm -fr "$1"/IUT
+                creationArborescence "$(echo $1)" && arborescenceCree "L'ancienne Arborescence à été remplacer par la nouvelle avec succès" || arborescenceEchoue
+            fi
+        else
+            creationArborescence "$(echo $1)" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
+        fi
+    else
+        if [ $# -lt 2 ]
+        then
+            cheminInvalide "$(echo $1)"
+        else
+            mkdir "$(echo $1)"
+            creationArborescence "$(echo $1)" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
+        fi
+    fi
+fi
