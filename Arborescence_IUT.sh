@@ -2,7 +2,7 @@
 
 function demandeChemin()
 {
-	rep=$(whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : $(pwd))" 10 50 3>&1 1>&2 2>&3)
+	rep=$(whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : $(pwd))" 10 50 test 3>&1 1>&2 2>&3)
 
 	
 	verif=$?
