@@ -226,21 +226,21 @@ function main()
             then
                 if [ $# -lt 2 ]
                 then
-                    cheminExisteDeja "$(echo $1)"
+                    cheminExisteDeja "$1"
                 else
                     rm -fr "$1"/IUT
-                    creationArborescence "$(echo $1)" && arborescenceCree "L'ancienne Arborescence à été remplacer par la nouvelle avec succès" || arborescenceEchoue
+                    creationArborescence "$1" && arborescenceCree "L'ancienne Arborescence à été remplacer par la nouvelle avec succès" || arborescenceEchoue
                 fi
             else
-                creationArborescence "$(echo $1)" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
+                creationArborescence "$1" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
             fi
         else
             if [ $# -lt 2 ]
             then
-                cheminInvalide "$(echo $1)"
+                cheminInvalide "$1"
             else
-                mkdir "$(echo $1)"
-                creationArborescence "$(echo $1)" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
+                mkdir "$1"
+                creationArborescence "$1" && arborescenceCree "Arborescence créée avec succès dans le dossier $1" || arborescenceEchoue
             fi
         fi
     fi
