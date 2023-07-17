@@ -13,7 +13,7 @@ function demandeChemin()
 	
 	if [ $verif -eq 0 ] && [ $? -eq 0 ] && [[ $rep != "" ]]
 	then
-		main "$(echo $rep)"
+		return $rep
 	else
 		if [ $verif -ne 0 ]
 		then 
