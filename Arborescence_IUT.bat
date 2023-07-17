@@ -12,17 +12,17 @@ IF "%~1"=="" (
                 call :cheminAlreadyExist "%~1"
             ) ELSE (
                 rmdir /q /s "%~1\IUT"
-                call :creation_arborescence "%~1" && call :ArborescenceCreer "L'ancienne Arborescence à été remplacer par la nouvelle avec succès" || ( call :ArborescenceFailed & goto :eof )
+                call :creation_arborescence "%~1" && call :ArborescenceCreer "L'ancienne Arborescence a ete remplacer par la nouvelle avec succes" || ( call :ArborescenceFailed & goto :eof )
             )
-        ) else (
-            call :creation_arborescence "%~1" && call :ArborescenceCreer "Arborescence créée avec succès dans le dossier ""%~f1""" || ( call :ArborescenceFailed & goto :eof )
+        ) ELSE (
+            call :creation_arborescence "%~1" && call :ArborescenceCreer "! Arborescence creee avec succes dans le dossier ""%~f1""" || ( call :ArborescenceFailed & goto :eof )
         )
     ) ELSE (
         IF "%~2"=="" (
             call :cheminInvalide "%~1"
         ) ELSE (
             mkdir "%~1"
-            call :creation_arborescence "%~1" && call :ArborescenceCreer "Arborescence créée avec succès dans le dossier ""%~f1""" || ( call :ArborescenceFailed & goto :eof )
+            call :creation_arborescence "%~1" && call :ArborescenceCreer "Arborescence creee avec succes dans le dossier ""%~f1""" || ( call :ArborescenceFailed & goto :eof )
         )
         
     )
@@ -36,7 +36,7 @@ goto :eof
 
 :: Demande du chamin ::
 :demandeChemin
-    echo chemin = inputbox ^("Le chemin absolu est le chemin complet de votre dossier en partant de la racine de votre disque dur (racine = uneLettreMajuscule:, généralement ""C:"")" ^& vbCRLF ^& vbCRLF ^& vbCRLF ^& "Veuillez entrer le chemin absolu du répertoire d'installation de l'arborescence de l'IUT :", "Installation arborescence", "C:"^)> demande_chemin.vbs
+    echo chemin = inputbox ^("Le chemin absolu est le chemin complet de votre dossier en partant de la racine de votre disque dur (racine = uneLettreMajuscule:, generalement ""C:"")" ^& vbCRLF ^& vbCRLF ^& vbCRLF ^& "Veuillez entrer le chemin absolu du repertoire d'installation de l'arborescence de l'IUT :", "Installation arborescence", "C:"^)> demande_chemin.vbs
     echo prog = "Arborescence_IUT.bat """ ^& chemin ^& """">> demande_chemin.vbs
     echo IF chemin^<^>"" THEN>> demande_chemin.vbs
     echo     WScript.CreateObject ^("Wscript.shell"^).Run^(prog^), ^0>> demande_chemin.vbs
@@ -49,21 +49,21 @@ goto :eof
 :: Message quand le dossier d'installation N'EXISTE PAS ::
 :cheminInvalide
     echo chemin = "%~1"> cheminNonValable.vbs
-    echo creer = msgbox("Le dossier ""%~f1"" n'éxiste pas. Voulez-vous le créer ?", vbYesNo+vbExclamation, "Création du dossier %~1")>> cheminNonValable.vbs
+    echo creer = msgbox("Le dossier ""%~f1"" n'existe pas. Voulez-vous le creer ?", vbYesNo+vbExclamation, "Creation du dossier %~1")>> cheminNonValable.vbs
     echo IF creer = vbYes THEN>> cheminNonValable.vbs
     echo     prog = "Arborescence_IUT.bat """ ^& chemin ^& """ ""creer" ^& """">> cheminNonValable.vbs
     echo     WScript.CreateObject ^("Wscript.shell"^).Run^(prog^), ^0>> cheminNonValable.vbs
     echo ELSE>> cheminNonValable.vbs
-    echo     msgbox "L'arborescence n'à pas été installer", vbOkOnly+vbInformation, "Annulation">> cheminNonValable.vbs
+    echo     msgbox "L'arborescence n'a pas ete installer", vbOkOnly+vbInformation, "Annulation">> cheminNonValable.vbs
     echo END IF>> cheminNonValable.vbs
 
     call cheminNonValable.vbs
 goto :eof
 
 
-:: Message quand le dossier d'installation EXISTE et que l'arborescence à été créer avec succès ::
+:: Message quand le dossier d'installation EXISTE et que l'arborescence a ete creer avec succes ::
 :ArborescenceCreer
-    echo msgbox %1, vbOkOnly+vbInformation, "Arborescence créée"> arborescenceCreer.vbs
+    echo msgbox %1, vbOkOnly+vbInformation, "Arborescence creee"> arborescenceCreer.vbs
 
     call arborescenceCreer.vbs
 goto :eof
@@ -71,23 +71,23 @@ goto :eof
 
 :: Message en cas d'erreur inconnu ::
 :ArborescenceFailed
-    echo msgbox "L'arborescence n'a pas pu être créée pour des raison incunnu", vbOkOnly+vbCritical, "Arborescence Failed"> arborescenceFailed.vbs
+    echo msgbox "L'arborescence n'a pas pu être creee pour des raison incunnu", vbOkOnly+vbCritical, "Arborescence Failed"> arborescenceFailed.vbs
 
     call arborescenceFailed.vbs
 goto :eof
 
 
-:: Message si un dossier IUT existe déjà dans le répertoire d'installation qu'a choisie l'utilisateur ::
+:: Message si un dossier IUT existe deja dans le repertoire d'installation qu'a choisie l'utilisateur ::
 :cheminAlreadyExist
     echo chemin = "%~1">>cheminAlreadyExist.vbs
-    echo remplacer = msgbox("Le dossier ""IUT"" existe déjà dans le dossier ""%~f1"" Voulez-vous le remplacer ?", vbYesNo+vbExclamation, "IUT existe deja")>>cheminAlreadyExist.vbs
+    echo remplacer = msgbox("Le dossier ""IUT"" existe deja dans le dossier ""%~f1"" Voulez-vous le remplacer ?", vbYesNo+vbExclamation, "IUT existe deja")>>cheminAlreadyExist.vbs
     echo IF remplacer = vbYes THEN>>cheminAlreadyExist.vbs
-    echo     remplacer = msgbox("Êtes-vous sûr de vouloir supprimer toute les données du dossier ""IUT"" et de tout les sous dossiers de ""IUT""", vbYesNo+vbCritical+vbDefaultButton2, "Confirmation de la suppression")>>cheminAlreadyExist.vbs
+    echo     remplacer = msgbox("Êtes-vous sûr de vouloir supprimer toute les donnees du dossier ""IUT"" et de tout les sous dossiers de ""IUT""", vbYesNo+vbCritical+vbDefaultButton2, "Confirmation de la suppression")>>cheminAlreadyExist.vbs
     echo     IF remplacer = vbYes THEN>>cheminAlreadyExist.vbs
     echo         prog = "Arborescence_IUT.bat """ ^& chemin ^& """ ""remplacer" ^& """">>cheminAlreadyExist.vbs
     echo         WScript.CreateObject ^("Wscript.shell"^).Run^(prog^), ^0>>cheminAlreadyExist.vbs
     echo     ELSE>>cheminAlreadyExist.vbs
-    echo         msgbox "Annulation de l'installation de l'arborescence, aucun dossier n'a été supprimer.", vbOkOnly+vbInformation, "Annulation">>cheminAlreadyExist.vbs
+    echo         msgbox "Annulation de l'installation de l'arborescence, aucun dossier n'a ete supprimer.", vbOkOnly+vbInformation, "Annulation">>cheminAlreadyExist.vbs
     echo     END IF>>cheminAlreadyExist.vbs
     echo END IF>>cheminAlreadyExist.vbs
 
@@ -95,7 +95,7 @@ goto :eof
 goto :eof
 
 
-:: Suppression de tout les fichiers temporaire qui peuvent être créée pendant l'execution du script ::
+:: Suppression de tout les fichiers temporaire qui peuvent être creee pendant l'execution du script ::
 :suppressionFichierTemp
     IF EXIST "demande_chemin.vbs"        del /q /f "demande_chemin.vbs"
     IF EXIST "cheminNonValable.vbs"      del /q /f "cheminNonValable.vbs"
@@ -107,9 +107,9 @@ goto :eof
 
 
 
-:: Créée le script qui vas créée l'arboressence l'arborescence ::
+:: Creee le script qui vas creee l'arboressence l'arborescence ::
 :creation_arborescence
-    :: Arborescence générale ::
+    :: Arborescence generale ::
     mkdir "%~1\IUT"
     mkdir "%~1\IUT\TP"
     mkdir "%~1\IUT\TP\java"
@@ -142,7 +142,7 @@ goto :eof
     mkdir "%~1\IUT\TP\s1\sae1_03_Installation_dun_poste_de_developpement"
     mkdir "%~1\IUT\TP\s1\sae1_04_Creation_dune_base_de_donnees"
     mkdir "%~1\IUT\TP\s1\sae1_05_Recueil_du_besoins"
-    mkdir "%~1\IUT\TP\s1\sae1_06_Decouverte_de_lenvironnement_économique_et_ecologique"
+    mkdir "%~1\IUT\TP\s1\sae1_06_Decouverte_de_lenvironnement_economique_et_ecologique"
 
 
     :: Arborescence Semestre 2 ::
@@ -167,12 +167,12 @@ goto :eof
 
     mkdir "%~1\IUT\TP\s2\p2_01_Portfolio"
 
-    mkdir "%~1\IUT\TP\s2\sae2_01_Développement_d'une_application"
-    mkdir "%~1\IUT\TP\s2\sae2_02_Exploration_algorithmique_d'un_problème"
-    mkdir "%~1\IUT\TP\s2\sae2_03_Installation_de_services_réseau"
-    mkdir "%~1\IUT\TP\s2\sae2_04_Exploitation_d'une_base_de_données"
+    mkdir "%~1\IUT\TP\s2\sae2_01_Developpement_d'une_application"
+    mkdir "%~1\IUT\TP\s2\sae2_02_Exploration_algorithmique_d'un_probleme"
+    mkdir "%~1\IUT\TP\s2\sae2_03_Installation_de_services_reseau"
+    mkdir "%~1\IUT\TP\s2\sae2_04_Exploitation_d'une_base_de_donnees"
     mkdir "%~1\IUT\TP\s2\sae2_05_Gestion_d'un_projet"
-    mkdir "%~1\IUT\TP\s2\sae2_06_Organisation_d'un_travail_d'équipe"
+    mkdir "%~1\IUT\TP\s2\sae2_06_Organisation_d'un_travail_d'equipe"
 
 
     :: Arborescence Semestre 3 ::
@@ -194,7 +194,7 @@ goto :eof
 
     mkdir "%~1\IUT\TP\s3\p3_01_Portfolio"
 
-    mkdir "%~1\IUT\TP\s3\sae3_01_Développement_d'une_application"
+    mkdir "%~1\IUT\TP\s3\sae3_01_Developpement_d'une_application"
 
 
     :: Arborescence Semestre 4 ::
