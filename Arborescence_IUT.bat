@@ -15,6 +15,7 @@ IF "%~1"=="" (
                 call :creation_arborescence "%~1" && call :ArborescenceCreer "L'ancienne Arborescence a ete remplacer par la nouvelle avec succes" || ( call :ArborescenceFailed & goto :eof )
             )
         ) ELSE (
+            call :ArborescenceCreer "%~1"
             call :creation_arborescence "%~1" && call :ArborescenceCreer "! Arborescence creee avec succes dans le dossier ""%~f1""" || ( call :ArborescenceFailed & goto :eof )
         )
     ) ELSE (
