@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Chemin invalide #
 function cheminInvalide()
 {
 	TERM=ansi whiptail --title "Dossier inexistant" --yesno "Le dossier \"$1\" n'existe pas.\n\nSouhaitez vous le créer ?" 10 35 && {
@@ -7,11 +8,15 @@ function cheminInvalide()
     } || TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
 }
 
+
+# Succès de la création de l'arborescence #
 function arborescenceCreer()
 {
     TERM=ansi whiptail --title "Arborescence créée" --infobox "L'arborescence à été créée avec succès" 10 50
 }
 
+
+# Chemin deja existant #
 function cheminExisteDeja()
 {
 	TERM=ansi whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"${1}/IUT\" existe déjà. Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && {
@@ -26,7 +31,7 @@ function cheminExisteDeja()
 }
 
 
-
+# Création de l'arborescence #
 function creationArborescence()
 {
 	# Arborescence générale #
@@ -174,10 +179,11 @@ function creationArborescence()
 }
 
 
-
+# Main (Code executer) #
 folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3) && {
     ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
 } || {
     TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
-    exit 0
 }
+
+exit 0
