@@ -1,16 +1,5 @@
 #!/bin/bash
 
-function demandeChemin()
-{
-	folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3) && {
-        ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
-    } || {
-        TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
-        exit 0
-    }
-}
-
-
 function cheminInvalide()
 {
 	TERM=ansi whiptail --title "Dossier inexistant" --yesno "Le dossier \"$1\" n'existe pas.\n\nSouhaitez vous le créer ?" 10 35 && {
@@ -185,9 +174,10 @@ function creationArborescence()
 }
 
 
-function main()
-{
-    demandeChemin
-}
 
-main
+folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3) && {
+    ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
+} || {
+    TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
+    exit 0
+}
