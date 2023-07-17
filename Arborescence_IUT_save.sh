@@ -28,7 +28,7 @@ function cheminInvalide()
 	whiptail --title "Chemin non existant" --yesno "Le dossier \"$echo $1\" n'existe pas.\n\nSouhaitez vous le créer ?" 10 35
 	
 	if [ $? -eq 0 ]
-	then
+	then 
 		main "$1" creer
 	else
 		whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
