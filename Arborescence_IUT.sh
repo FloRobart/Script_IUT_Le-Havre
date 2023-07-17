@@ -2,9 +2,12 @@
 
 function demandeChemin()
 {
-	folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3) || TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50; exit 0
-
-    ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
+	folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3) && {
+        ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
+    } || {
+        TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
+        exit 0
+    }
 }
 
 
