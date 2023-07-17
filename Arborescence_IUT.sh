@@ -46,12 +46,12 @@ function cheminExisteDeja()
             rm -rf "${1}/IUT" && {
                 whiptail --title "SUPPRESSION" --infobox "L'arborescence à été supprimé avec succès" 10 50
                 creationArborescence "$1" && arborescenceCree || arborescenceEchoue
-            }
+            };
         } || {
-            whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
-        }
+            whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50;
+        };
     } || {
-        whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
+        whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50;
     }
 
     return 0
