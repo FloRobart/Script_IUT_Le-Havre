@@ -15,8 +15,10 @@ IF "%~1"=="" (
                 call :creation_arborescence "%~1" && call :ArborescenceCreer "L'ancienne Arborescence a ete remplacer par la nouvelle avec succes" || ( call :ArborescenceFailed & goto :eof )
             )
         ) ELSE (
-            set "folder=%~1"
-            call :creation_arborescence "%~1" && call :ArborescenceCreer "! Arborescence creee avec succes dans le dossier ""%folder%""" || ( call :ArborescenceFailed & goto :eof )
+            setlocal EnableDelayedExpansion
+                set "folder=%~1"
+                call :creation_arborescence "%~1" && call :ArborescenceCreer "Arborescence creee avec succes dans le dossier ""!folder!""" || ( call :ArborescenceFailed & goto :eof )
+            endlocal
         )
     ) ELSE (
         IF "%~2"=="" (
