@@ -44,7 +44,7 @@ function cheminExisteDeja()
 	whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"${1}/IUT\" existe déjà. Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && {
         echo oui
     } || {
-        echo non
+        whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50;
     }
     
     #{
