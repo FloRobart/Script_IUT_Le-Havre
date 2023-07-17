@@ -1,5 +1,6 @@
 #!/bin/bash
-demandeChemin()
+
+function demandeChemin()
 {
 	rep=$(whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : $(pwd))" 10 50 3>&1 1>&2 2>&3)
 
@@ -23,7 +24,7 @@ demandeChemin()
 }
 
 
-cheminInvalide()
+function cheminInvalide()
 {
 	whiptail --title "Chemin non existant" --yesno "Le dossier \"$echo $1\" n'existe pas.\n\nSouhaitez vous le créer ?" 10 35
 	
@@ -37,19 +38,19 @@ cheminInvalide()
 
 
 
-arborescenceCree()
+function arborescenceCree()
 {
 	whiptail --infobox "Arborescence créée avec succès" 10 50
 }
 
 
-arborescenceEchoue()
+function arborescenceEchoue()
 {
 	whiptail --infobox "L'arborescence n'a pas pu être créée pour des raisons inconnu" 10 50
 }
 
 
-cheminExisteDeja()
+function cheminExisteDeja()
 {
 	whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"IUT\" est déjà dans le dossier \"$echo $1\". Voullez vous le supprimez ?" 10 50
 	
@@ -67,7 +68,7 @@ cheminExisteDeja()
 	fi	 
 }
 
-creationArborescence()
+function creationArborescence()
 {
 	  ## Arborescence générale ##
     mkdir "$1"/IUT
@@ -212,7 +213,7 @@ creationArborescence()
 }
 
 
-main()
+function main()
 {
 	if [ $# -lt 1 ] 
 	then
