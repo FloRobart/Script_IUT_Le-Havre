@@ -4,50 +4,33 @@ function demandeChemin()
 {
 	folder=$(TERM=ansi whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3)
 
-    ls "${folder}/IUT" >/dev/null 2>&1 && { cheminExisteDeja "$folder"; } || { creationArborescence "$folder" && ArborescenceCreer; }
-	#ls "$folder" >/dev/null 2>&1 && { creationArborescence && ArborescenceCreer; } || cheminInvalide "$folder"
+    ls "${folder}" >/dev/null 2>&1 && { ls "${folder}/IUT" >/dev/null 2>&1 && cheminExisteDeja "${folder}" || { creationArborescence "${folder}" && arborescenceCreer; } } || cheminInvalide "${folder}"
 }
 
 
 function cheminInvalide()
 {
-	whiptail --title "Chemin non existant" --yesno "Le dossier \"$1\" n'existe pas.\n\nSouhaitez vous le créer ?" 10 35
-	
-	if [ $? -eq 0 ]
-	then
-		main "$1" creer
-	else
-		whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
-	fi
+	TERM=ansi whiptail --title "Dossier inexistant" --yesno "Le dossier \"$1\" n'existe pas.\n\nSouhaitez vous le créer ?" 10 35 && {
+        mkdir -p "$1" && { creationArborescence "${1}" && arborescenceCreer; } || TERM=ansi whiptail --title "ERREUR" --infobox "Une erreur s'est produit lors de la création du dossier \"${1}\"" 10 50
+    } || TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
 }
 
-function ArborescenceCreer()
+function arborescenceCreer()
 {
     whiptail --title "Arborescence créée" --infobox "L'arborescence à été créée avec succès" 10 50
 }
 
-
-function arborescenceCree()
-{
-	whiptail --infobox "Arborescence créée avec succès" 10 50
-}
-
-
-function arborescenceEchoue()
-{
-	whiptail --infobox "L'arborescence n'a pas pu être créée pour des raisons inconnu" 10 50
-}
-
-
 function cheminExisteDeja()
 {
 	whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"${1}/IUT\" existe déjà. Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && {
+        # Inversion des boutons pour que le bouton "yes" soit à gauche et le bouton "no" à droite
         TERM=ansi whiptail --title "CONFIRMATION" --yesno "Êtes vous sûr de vouloir supprimer votre Arborescence IUT existante ?" --yes-button "no" --no-button "yes" 10 50 && {
-            TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
+            TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été remplacé" 10 50
         } || {
-            rm -rf "${1}/IUT" && TERM=ansi whiptail --title "SUPPRESSION" --infobox "L'arborescence à été supprimé avec succès" 10 50
+            rm -rf "${1}/IUT" && creationArborescence "${1}" && arborescenceCreer;
+            # TERM=ansi whiptail --title "SUPPRESSION" --infobox "L'arborescence à été supprimé avec succès" 10 50
         }
-    } || { TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50; }
+    } || TERM=ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été remplacé" 10 50
 }
 
 
