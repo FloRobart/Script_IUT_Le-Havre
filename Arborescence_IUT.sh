@@ -45,9 +45,8 @@ function cheminExisteDeja()
         echo oui
     } || {
         echo non
-        whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
     }
-    
+    whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
     #{
     #    whiptail --title "CONFIRMATION" --yesno "Êtes vous sûr de vouloir supprimer votre Arborescence IUT existante ?" --yes-button "no" --no-button "yes" 10 50 && {
     #        rm -rf "${1}/IUT" && {
