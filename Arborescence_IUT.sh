@@ -4,7 +4,6 @@ function demandeChemin()
 {
 	folder=$(whiptail --inputbox "Veuillez entrer le chemin du répertoire d'instalation de l'arborescence de l'IUT (exemple : /home/$USER)" 10 50 /home/$USER 3>&1 1>&2 2>&3)
 
-    echo dossier $folder
     ls "${folder}/IUT" >/dev/null 2>&1 && { cheminExisteDeja "$folder"; }
 	#ls "$folder" >/dev/null 2>&1 && { creationArborescence && ArborescenceCreer; } || cheminInvalide "$folder"
 }
@@ -42,7 +41,16 @@ function arborescenceEchoue()
 
 function cheminExisteDeja()
 {
-	whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"IUT\" est déjà dans le dossier \"$1\". Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && echo "oui" || echo "non"
+	whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"${1}/IUT\" existe déjà. Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && {
+        whiptail --title "CONFIRMATION" --yesno "Êtes vous sûr de vouloir supprimer votre Arborescence IUT existante ?" --yes-button "no" --no-button "yes" 10 50 && {
+            rm -rf "${1}/IUT" && {
+                whiptail --title "SUPPRESSION" --infobox "L'arborescence à été supprimé avec succès" 10 50
+                creationArborescence "$1" && arborescenceCree || arborescenceEchoue
+            }
+        }
+    } || {
+        whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
+    }
 
     return 0
 	
