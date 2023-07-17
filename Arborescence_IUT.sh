@@ -41,12 +41,12 @@ function arborescenceEchoue()
 
 function cheminExisteDeja()
 {
-	ansi whiptail --title "Arborescence déjà existante" --yesno "Le dossier \"${1}/IUT\" existe déjà. Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && {
+	ansiwhiptail --title "Arborescence déjà existante" --yesno "Le dossier \"${1}/IUT\" existe déjà. Voullez vous le supprimez ainsi que toute les données qu'il contient ?" 10 50 && {
         echo oui
     } || {
         echo non
     }
-    ansi whiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
+    ansiwhiptail --title "ANNULATION" --infobox "L'arborescence n'a pas été installé" 10 50
     #{
     #    whiptail --title "CONFIRMATION" --yesno "Êtes vous sûr de vouloir supprimer votre Arborescence IUT existante ?" --yes-button "no" --no-button "yes" 10 50 && {
     #        rm -rf "${1}/IUT" && {
