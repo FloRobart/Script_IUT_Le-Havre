@@ -17,7 +17,7 @@ function cheminInvalide()
 
 function arborescenceCreer()
 {
-    whiptail --title "Arborescence créée" --infobox "L'arborescence à été créée avec succès" 10 50
+    TERM=ansi whiptail --title "Arborescence créée" --infobox "L'arborescence à été créée avec succès" 10 50
 }
 
 function cheminExisteDeja()
